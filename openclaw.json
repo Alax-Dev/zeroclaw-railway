@@ -1,0 +1,198 @@
+{
+  "$schema": "https://docs.openclaw.ai/schema/openclaw.json",
+  "agents": {
+    "defaults": {
+      "workspace": "~/.openclaw/workspace",
+      "model": {
+        "primary": "nim/deepseek-v4-pro",
+        "fallbacks": [
+          "github-models/gpt-5",
+          "github-models/grok-3",
+          "nim/glm-5.1",
+          "nim/qwen3.5-122b-a10b"
+        ]
+      },
+      "imageModel": {
+        "primary": "nim/stable-diffusion-3.5-large",
+        "fallbacks": ["nim/flux.2-klein-4b"]
+      },
+      "models": {
+        "nim/deepseek-v4-pro": { "alias": "deepseek" },
+        "nim/glm-5.1": { "alias": "glm" },
+        "nim/qwen3.5-122b-a10b": { "alias": "qwen" },
+        "nim/qwen3-coder-480b-a35b-instruct": { "alias": "qwen-coder" },
+        "nim/phi-4-mini-instruct": { "alias": "phi" },
+        "nim/llama-3.3-70b-instruct": { "alias": "llama" },
+        "github-models/gpt-5": { "alias": "gpt5" },
+        "github-models/grok-3": { "alias": "grok" },
+        "nim/stable-diffusion-3.5-large": { "alias": "sd" },
+        "nim/flux.2-klein-4b": { "alias": "flux" }
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "identity": {
+          "emoji": "⚡",
+          "name": "Zeroclaw"
+        }
+      }
+    ]
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "botToken": "${TELEGRAM_BOT_TOKEN}",
+      "dmPolicy": "allowlist",
+      "allowFrom": ["${TELEGRAM_ADMIN_ID}"],
+      "streaming": "partial",
+      "linkPreview": false,
+      "textChunkLimit": 4000,
+      "chunkMode": "newline",
+      "commands": {
+        "native": true,
+        "nativeSkills": true
+      },
+      "customCommands": [
+        { "command": "model", "description": "Switch AI model" },
+        { "command": "models", "description": "List available models" },
+        { "command": "bash", "description": "Run terminal command" },
+        { "command": "status", "description": "Show system status" },
+        { "command": "imagine", "description": "Generate an image" },
+        { "command": "think", "description": "Set thinking level" },
+        { "command": "elevated", "description": "Toggle elevated mode" },
+        { "command": "exec", "description": "Exec settings" },
+        { "command": "restart", "description": "Restart gateway" },
+        { "command": "reset", "description": "Reset session" }
+      ],
+      "capabilities": {
+        "inlineButtons": "all"
+      },
+      "actions": {
+        "sendMessage": true,
+        "deleteMessage": true,
+        "reactions": true,
+        "sticker": true
+      }
+    }
+  },
+  "commands": {
+    "text": true,
+    "bash": true,
+    "bashForegroundMs": 5000,
+    "config": true,
+    "debug": true,
+    "restart": true
+  },
+  "tools": {
+    "exec": {
+      "host": "gateway",
+      "security": "full",
+      "ask": "off"
+    },
+    "web": {
+      "search": {
+        "provider": "brave"
+      }
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "nim": {
+        "baseUrl": "https://integrate.api.nvidia.com/v1",
+        "apiKey": "${NVIDIA_NIM_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "deepseek-v4-pro",
+            "name": "DeepSeek V4 Pro",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 1048576,
+            "maxTokens": 16384
+          },
+          {
+            "id": "glm-5.1",
+            "name": "GLM-5.1",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 131072,
+            "maxTokens": 8192
+          },
+          {
+            "id": "qwen3.5-122b-a10b",
+            "name": "Qwen 3.5 122B",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 131072,
+            "maxTokens": 8192
+          },
+          {
+            "id": "qwen3-coder-480b-a35b-instruct",
+            "name": "Qwen 3 Coder 480B",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 131072,
+            "maxTokens": 16384
+          },
+          {
+            "id": "phi-4-mini-instruct",
+            "name": "Phi 4 Mini",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 131072,
+            "maxTokens": 8192
+          },
+          {
+            "id": "llama-3.3-70b-instruct",
+            "name": "Llama 3.3 70B",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 131072,
+            "maxTokens": 8192
+          },
+          {
+            "id": "stable-diffusion-3.5-large",
+            "name": "Stable Diffusion 3.5 Large",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 4096,
+            "maxTokens": 4096
+          },
+          {
+            "id": "flux.2-klein-4b",
+            "name": "FLUX 2 Klein",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 4096,
+            "maxTokens": 4096
+          }
+        ]
+      },
+      "github-models": {
+        "baseUrl": "https://models.inference.ai.azure.com",
+        "apiKey": "${GITHUB_TOKEN}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5",
+            "name": "GPT-5",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 128000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "grok-3",
+            "name": "Grok 3",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 131072,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    }
+  }
+}
