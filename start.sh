@@ -111,8 +111,16 @@ main() {
     echo "⚡ Starting OpenClaw Gateway..."
     echo ""
     
-    # Start the gateway
-    exec openclaw gateway
+    # Kill any existing gateway processes (ignore errors)
+    pkill -f "openclaw gateway" 2>/dev/null || true
+    sleep 2
+    
+    # Fix IPv6 issues on some hosts
+    export OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY=1
+    export OPENCLAW_TELEGRAM_DNS_RESULT_ORDER=ipv4first
+    
+    # Start the gateway with --force to kill any lingering listeners
+    exec openclaw gateway --force
 }
 
 main "$@"
