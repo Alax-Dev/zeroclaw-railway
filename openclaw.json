@@ -1,5 +1,8 @@
 {
   "$schema": "https://docs.openclaw.ai/schema/openclaw.json",
+  "gateway": {
+    "mode": "local"
+  },
   "agents": {
     "defaults": {
       "workspace": "~/.openclaw/workspace",
