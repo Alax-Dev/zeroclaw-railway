@@ -95,6 +95,11 @@ main() {
     setup_git
     start_copilot_auth
     
+    # Clean up stale plugin-runtime-deps lock if present (recurse, ignore errors)
+    if [ -d "/root/.openclaw/plugin-runtime-deps" ]; then
+      find /root/.openclaw/plugin-runtime-deps -name ".openclaw-runtime-deps.lock" -type d -exec rm -rf {} + 2>/dev/null || true
+    fi
+    
     echo ""
     echo "⚡ ============================================"
     echo "⚡  ZEROCKLA RAILWAY - Ready"
