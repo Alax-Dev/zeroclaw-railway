@@ -57,7 +57,7 @@
       "linkPreview": false,
       "textChunkLimit": 4000,
       "chunkMode": "newline",
-      "pollingStallThresholdMs": 30000,
+      "pollingStallThresholdMs": 300000,
       "timeoutSeconds": 30,
       "commands": {
         "native": true,
