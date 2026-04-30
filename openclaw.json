@@ -7,8 +7,9 @@
     "defaults": {
       "workspace": "~/.openclaw/workspace",
       "model": {
-        "primary": "nim/deepseek-ai/deepseek-v4-pro",
+        "primary": "nim/microsoft/phi-4-mini-instruct",
         "fallbacks": [
+          "nim/deepseek-ai/deepseek-v4-pro",
           "github-models/gpt-5",
           "github-models/grok-3",
           "nim/zai-org/glm-51",
@@ -56,9 +57,11 @@
       "linkPreview": false,
       "textChunkLimit": 4000,
       "chunkMode": "newline",
+      "pollingStallThresholdMs": 30000,
+      "timeoutSeconds": 30,
       "commands": {
         "native": true,
-        "nativeSkills": true
+        "nativeSkills": false
       },
       "customCommands": [
         { "command": "model", "description": "Switch AI model" },
