@@ -8,6 +8,7 @@ echo "⚡ ============================================"
 # Validate required environment variables
 validate_env() {
     local missing=0
+    local has_ai=0
     
     if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
         echo "❌ TELEGRAM_BOT_TOKEN is not set!"
@@ -19,23 +20,19 @@ validate_env() {
         missing=1
     fi
     
-    if [ -z "$NVIDIA_NIM_API_KEY" ]; then
-        echo "⚠️  NVIDIA_NIM_API_KEY is not set - NIM models will be unavailable"
-    fi
-    
-    if [ -z "$GITHUB_TOKEN" ]; then
-        echo "⚠️  GITHUB_TOKEN is not set - GitHub Models will be unavailable"
+    # AI provider keys — at least one required
+    if [ -n "$NVIDIA_NIM_API_KEY" ] || [ -n "$GITHUB_TOKEN" ]; then
+        has_ai=1
+    else
+        echo "⚠️  No AI provider keys detected. Set at least one:"
+        echo "   NVIDIA_NIM_API_KEY (for NIM models)"
+        echo "   GITHUB_TOKEN (for GitHub Models)"
+        missing=1
     fi
     
     if [ $missing -eq 1 ]; then
         echo ""
-        echo "Required environment variables:"
-        echo "  TELEGRAM_BOT_TOKEN   - Get from @BotFather on Telegram"
-        echo "  TELEGRAM_ADMIN_ID    - Your Telegram numeric user ID"
-        echo ""
-        echo "Optional:"
-        echo "  NVIDIA_NIM_API_KEY   - Get from build.nvidia.com"
-        echo "  GITHUB_TOKEN         - Get from github.com/settings/tokens"
+        echo "Set the required variables in Railway (Settings → Variables) and redeploy."
         echo ""
         exit 1
     fi
