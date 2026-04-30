@@ -48,20 +48,28 @@ substitute_env() {
     local config="/root/.openclaw/openclaw.json"
     local temp="/tmp/openclaw-resolved.json"
     
-    # Use envsubst with explicit variable list to avoid mangling $schema and other $-prefixed JSON keys
-    envsubst '${TELEGRAM_BOT_TOKEN} ${TELEGRAM_ADMIN_ID} ${NVIDIA_NIM_API_KEY} ${GITHUB_TOKEN}' < "$config" > "$temp"
+    # Use sed to replace env var placeholders (avoids envsubst mangling $schema)
+    cp "$config" "$temp"
+    sed -i "s|\${TELEGRAM_BOT_TOKEN}|${TELEGRAM_BOT_TOKEN}|g" "$temp"
+    sed -i "s|\${TELEGRAM_ADMIN_ID}|${TELEGRAM_ADMIN_ID}|g" "$temp"
+    sed -i "s|\${NVIDIA_NIM_API_KEY}|${NVIDIA_NIM_API_KEY}|g" "$temp"
+    sed -i "s|\${GITHUB_TOKEN}|${GITHUB_TOKEN}|g" "$temp"
     mv "$temp" "$config"
     
     echo "✅ Config resolved"
 }
 
-# Start Copilot auth server
+# Start Copilot auth server (non-fatal - don't crash if it fails)
 start_copilot_auth() {
     echo "🔑 Starting Copilot auth server on port ${COPILOT_AUTH_PORT:-8789}..."
-    node /copilot-auth-server.js &
-    COPILOT_PID=$!
-    echo "   Copilot auth server PID: $COPILOT_PID"
-    echo "   Visit http://localhost:${COPILOT_AUTH_PORT:-8789}/ to authenticate"
+    if node /copilot-auth-server.js >> /tmp/copilot-auth.log 2>&1 &
+    then
+        COPILOT_PID=$!
+        echo "   Copilot auth server PID: $COPILOT_PID"
+        echo "   Visit http://localhost:${COPILOT_AUTH_PORT:-8789}/ to authenticate"
+    else
+        echo "⚠️  Copilot auth server failed to start (non-fatal)"
+    fi
 }
 
 # Initialize workspace if needed
