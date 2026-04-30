@@ -20,7 +20,8 @@ RUN npm install -g openclaw@latest
 # Create openclaw directories
 RUN mkdir -p /root/.openclaw/workspace \
     /root/.openclaw/agents/main/agent \
-    /root/.openclaw/telegram
+    /root/.openclaw/telegram \
+    /root/.openclaw/logs
 
 # Copy configuration
 COPY openclaw.json /root/.openclaw/openclaw.json

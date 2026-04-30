@@ -54,7 +54,9 @@ substitute_env() {
     sed -i "s|\${TELEGRAM_ADMIN_ID}|${TELEGRAM_ADMIN_ID}|g" "$temp"
     sed -i "s|\${NVIDIA_NIM_API_KEY}|${NVIDIA_NIM_API_KEY}|g" "$temp"
     sed -i "s|\${GITHUB_TOKEN}|${GITHUB_TOKEN}|g" "$temp"
-    mv "$temp" "$config"
+    # Use cp instead of mv to avoid EPERM on atomic rename across filesystems
+    cp "$temp" "$config"
+    rm -f "$temp"
     
     echo "✅ Config resolved"
 }
