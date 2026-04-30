@@ -63,19 +63,6 @@
         "native": true,
         "nativeSkills": false
       },
-      "customCommands": [
-        { "command": "model", "description": "Switch AI model" },
-        { "command": "models", "description": "List available models" },
-        { "command": "bash", "description": "Run terminal command" },
-        { "command": "status", "description": "Show system status" },
-        { "command": "imagine", "description": "Generate an image" },
-        { "command": "think", "description": "Set thinking level" },
-        { "command": "elevated", "description": "Toggle elevated mode" },
-        { "command": "exec", "description": "Exec settings" },
-        { "command": "restart", "description": "Restart gateway" },
-        { "command": "reset", "description": "Reset session" },
-        { "command": "copilot-login", "description": "Login to GitHub Copilot" }
-      ],
       "capabilities": {
         "inlineButtons": "all"
       },
@@ -84,7 +71,8 @@
         "deleteMessage": true,
         "reactions": true,
         "sticker": true
-      }
+      },
+      "timeoutSeconds": 60
     }
   },
   "commands": {
