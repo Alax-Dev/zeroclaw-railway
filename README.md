@@ -10,7 +10,7 @@
 - **Full terminal access** — run any command from chat
 - **Image generation** via NVIDIA NIM
 - **Admin-only access** — only your Telegram ID can interact
-- **10+ AI models** from two providers
+- **14+ AI models** from three providers (NIM, GitHub Models, GitHub Copilot)
 
 ## 🤖 Available Models
 
@@ -35,6 +35,16 @@
 |-------|-------|----------|
 | GPT-5 | `/model gpt5` | OpenAI's latest |
 | Grok 3 | `/model grok` | xAI's model |
+
+### GitHub Copilot (requires login)
+| Model | Alias | Use Case |
+|-------|-------|----------|
+| Claude Haiku 4.5 | `/model copilot-haiku` | Fast, lightweight |
+| GPT-4o | `/model copilot-gpt4o` | Vision + text |
+| GPT-5 Mini | `/model copilot-gpt5mini` | Fast GPT-5 |
+| Claude Sonnet 4.5 | `/model copilot-sonnet` | Balanced reasoning |
+
+> **Note:** Copilot models require a GitHub Copilot subscription. Send `/copilot-login` in Telegram to authenticate via device flow.
 
 ## 🚀 Deploy to Railway
 
@@ -101,6 +111,7 @@ Open Telegram, find your bot, and send `/status` to verify it's working.
 - `/elevated on` — Enable elevated mode
 - `/restart` — Restart the gateway
 - `/reset` — Reset current session
+- `/copilot-login` — Login to GitHub Copilot (device flow)
 
 ### Image Generation
 - `/model sd` then describe your image
@@ -124,6 +135,34 @@ A cyberpunk city at night, neon lights, rain
 /bash git add . && git commit -m "update" && git push
 ```
 
+## 🔑 GitHub Copilot Setup (Optional)
+
+If you have a GitHub Copilot subscription, you can use Copilot models (Claude Haiku 4.5, GPT-4o, etc.) as an additional provider.
+
+### How It Works
+
+1. Send `/copilot-login` to your bot on Telegram
+2. The bot gives you a **device code** (format: XXXX-XXXX)
+3. Go to https://github.com/login/device and enter the code
+4. Authorize the device
+5. The bot confirms authentication — you can now use Copilot models
+
+### Available Copilot Models
+
+- `/model copilot-haiku` — Claude Haiku 4.5 (fast)
+- `/model copilot-gpt4o` — GPT-4o (vision capable)
+- `/model copilot-gpt5mini` — GPT-5 Mini
+- `/model copilot-sonnet` — Claude Sonnet 4.5 (reasoning)
+
+### Auth Server
+
+The Copilot auth server runs on port `8789` alongside the gateway. It handles:
+- OAuth device flow authentication
+- Automatic token refresh (Copilot tokens expire every 25 min)
+- Proxying requests to the Copilot API with fresh tokens
+
+You can also access the auth UI directly at `https://your-railway-url:8789/`
+
 ## 🔧 Local Development
 
 ```bash
@@ -145,17 +184,18 @@ openclaw gateway
 
 ```
 zeroclaw-railway/
-├── Dockerfile          # Railway container build
-├── railway.json        # Railway deployment config
-├── openclaw.json       # OpenClaw configuration (models, channels, tools)
-├── start.sh            # Startup script with env validation
-├── .env.example        # Environment variables template
-├── README.md           # This file
-└── workspace/          # Agent workspace
-    ├── SOUL.md         # Agent personality
-    ├── AGENTS.md       # Agent capabilities
-    ├── USER.md         # Admin info
-    └── TOOLS.md        # Environment notes
+├── Dockerfile              # Railway container build
+├── railway.json            # Railway deployment config
+├── openclaw.json           # OpenClaw configuration (models, channels, tools)
+├── start.sh                # Startup script with env validation
+├── copilot-auth-server.js  # Copilot OAuth device flow + token proxy
+├── .env.example            # Environment variables template
+├── README.md               # This file
+└── workspace/              # Agent workspace
+    ├── SOUL.md             # Agent personality
+    ├── AGENTS.md           # Agent capabilities
+    ├── USER.md             # Admin info
+    └── TOOLS.md            # Environment notes
 ```
 
 ## ⚙️ Configuration Details
@@ -166,6 +206,7 @@ zeroclaw-railway/
 |----------|----------|----------|
 | NVIDIA NIM | `https://integrate.api.nvidia.com/v1` | OpenAI-compatible |
 | GitHub Models | `https://models.inference.ai.azure.com` | OpenAI-compatible |
+| GitHub Copilot | `https://api.githubcopilot.com` | OpenAI-compatible (via proxy) |
 
 ### Security Model
 
