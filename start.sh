@@ -55,6 +55,15 @@ substitute_env() {
     echo "✅ Config resolved"
 }
 
+# Start Copilot auth server
+start_copilot_auth() {
+    echo "🔑 Starting Copilot auth server on port ${COPILOT_AUTH_PORT:-8789}..."
+    node /copilot-auth-server.js &
+    COPILOT_PID=$!
+    echo "   Copilot auth server PID: $COPILOT_PID"
+    echo "   Visit http://localhost:${COPILOT_AUTH_PORT:-8789}/ to authenticate"
+}
+
 # Initialize workspace if needed
 init_workspace() {
     if [ ! -f /root/.openclaw/workspace/SOUL.md ]; then
@@ -78,6 +87,7 @@ main() {
     substitute_env
     init_workspace
     setup_git
+    start_copilot_auth
     
     echo ""
     echo "⚡ ============================================"

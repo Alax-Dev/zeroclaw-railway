@@ -31,6 +31,7 @@ COPY workspace/ /root/.openclaw/workspace/
 
 # Copy startup script
 COPY start.sh /start.sh
+COPY copilot-auth-server.js /copilot-auth-server.js
 RUN chmod +x /start.sh
 
 # Set working directory

@@ -25,6 +25,10 @@
         "nim/llama-3.3-70b-instruct": { "alias": "llama" },
         "github-models/gpt-5": { "alias": "gpt5" },
         "github-models/grok-3": { "alias": "grok" },
+        "copilot/claude-haiku-4.5": { "alias": "copilot-haiku" },
+        "copilot/gpt-4o": { "alias": "copilot-gpt4o" },
+        "copilot/gpt-5-mini": { "alias": "copilot-gpt5mini" },
+        "copilot/claude-sonnet-4.5": { "alias": "copilot-sonnet" },
         "nim/stable-diffusion-3.5-large": { "alias": "sd" },
         "nim/flux.2-klein-4b": { "alias": "flux" }
       }
@@ -63,7 +67,8 @@
         { "command": "elevated", "description": "Toggle elevated mode" },
         { "command": "exec", "description": "Exec settings" },
         { "command": "restart", "description": "Restart gateway" },
-        { "command": "reset", "description": "Reset session" }
+        { "command": "reset", "description": "Reset session" },
+        { "command": "copilot-login", "description": "Login to GitHub Copilot" }
       ],
       "capabilities": {
         "inlineButtons": "all"
@@ -190,6 +195,45 @@
             "input": ["text"],
             "contextWindow": 131072,
             "maxTokens": 8192
+          }
+        ]
+      },
+      "copilot": {
+        "baseUrl": "http://localhost:8789",
+        "apiKey": "copilot-proxy",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "claude-haiku-4.5",
+            "name": "Claude Haiku 4.5 (Copilot)",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "gpt-4o",
+            "name": "GPT-4o (Copilot)",
+            "reasoning": false,
+            "input": ["text", "image"],
+            "contextWindow": 128000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "gpt-5-mini",
+            "name": "GPT-5 Mini (Copilot)",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 128000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4.5",
+            "name": "Claude Sonnet 4.5 (Copilot)",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 200000,
+            "maxTokens": 16384
           }
         ]
       }
