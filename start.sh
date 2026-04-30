@@ -48,8 +48,8 @@ substitute_env() {
     local config="/root/.openclaw/openclaw.json"
     local temp="/tmp/openclaw-resolved.json"
     
-    # Use envsubst for variable substitution
-    envsubst < "$config" > "$temp"
+    # Use envsubst with explicit variable list to avoid mangling $schema and other $-prefixed JSON keys
+    envsubst '${TELEGRAM_BOT_TOKEN} ${TELEGRAM_ADMIN_ID} ${NVIDIA_NIM_API_KEY} ${GITHUB_TOKEN}' < "$config" > "$temp"
     mv "$temp" "$config"
     
     echo "✅ Config resolved"
