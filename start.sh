@@ -5,7 +5,6 @@ echo "⚡ ============================================"
 echo "⚡  ZEROCKLA RAILWAY - Starting Up"
 echo "⚡ ============================================"
 
-# Validate required environment variables
 validate_env() {
     local missing=0
     local has_ai=0
@@ -13,6 +12,11 @@ validate_env() {
     if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
         echo "❌ TELEGRAM_BOT_TOKEN is not set!"
         missing=1
+    else
+        # Basic format check: Telegram bot tokens start with digits followed by a colon
+        if ! [[ "$TELEGRAM_BOT_TOKEN" =~ ^[0-9]+:[A-Za-z0-9_-]+$ ]]; then
+            echo "⚠️  TELEGRAM_BOT_TOKEN format looks invalid (should be like: 123456:ABC...)"
+        fi
     fi
     
     if [ -z "$TELEGRAM_ADMIN_ID" ]; then
