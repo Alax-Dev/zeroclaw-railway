@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     lsb-release \
     jq \
+    gettext-base \
     && rm -rf /var/lib/apt/lists/*
 
 # Install OpenClaw globally
