@@ -46,17 +46,13 @@ substitute_env() {
     echo "🔧 Substituting environment variables in config..."
     
     local config="/root/.openclaw/openclaw.json"
-    local temp="/tmp/openclaw-resolved.json"
     
-    # Use sed to replace env var placeholders (avoids envsubst mangling $schema)
-    cp "$config" "$temp"
-    sed -i "s|\${TELEGRAM_BOT_TOKEN}|${TELEGRAM_BOT_TOKEN}|g" "$temp"
-    sed -i "s|\${TELEGRAM_ADMIN_ID}|${TELEGRAM_ADMIN_ID}|g" "$temp"
-    sed -i "s|\${NVIDIA_NIM_API_KEY}|${NVIDIA_NIM_API_KEY}|g" "$temp"
-    sed -i "s|\${GITHUB_TOKEN}|${GITHUB_TOKEN}|g" "$temp"
-    # Use cp instead of mv to avoid EPERM on atomic rename across filesystems
-    cp "$temp" "$config"
-    rm -f "$temp"
+    # Sed in-place on the original file (preserves inode — avoids
+    # the "missing-meta-before-write" / sha256 anomaly on reload)
+    sed -i "s|\${TELEGRAM_BOT_TOKEN}|${TELEGRAM_BOT_TOKEN}|g" "$config"
+    sed -i "s|\${TELEGRAM_ADMIN_ID}|${TELEGRAM_ADMIN_ID}|g" "$config"
+    sed -i "s|\${NVIDIA_NIM_API_KEY}|${NVIDIA_NIM_API_KEY}|g" "$config"
+    sed -i "s|\${GITHUB_TOKEN}|${GITHUB_TOKEN}|g" "$config"
     
     echo "✅ Config resolved"
 }
