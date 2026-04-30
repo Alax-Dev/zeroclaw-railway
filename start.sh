@@ -114,7 +114,7 @@ main() {
     echo ""
     
     # Start the gateway
-    exec openclaw gateway --no-color
+    exec openclaw gateway
 }
 
 main "$@"
