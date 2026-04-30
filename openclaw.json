@@ -189,7 +189,8 @@
             "reasoning": true,
             "input": ["text", "image"],
             "contextWindow": 128000,
-            "maxTokens": 16384
+            "maxTokens": 16384,
+            "compat": { "maxTokensField": "max_completion_tokens" }
           },
           {
             "id": "grok-3",
@@ -197,12 +198,13 @@
             "reasoning": true,
             "input": ["text"],
             "contextWindow": 131072,
-            "maxTokens": 8192
+            "maxTokens": 8192,
+            "compat": { "maxTokensField": "max_completion_tokens" }
           }
         ]
       },
       "copilot": {
-        "baseUrl": "http://localhost:8789",
+        "baseUrl": "http://localhost:8789/v1",
         "apiKey": "copilot-proxy",
         "api": "openai-completions",
         "models": [
