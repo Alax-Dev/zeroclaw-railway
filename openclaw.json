@@ -7,7 +7,7 @@
     "defaults": {
       "workspace": "~/.openclaw/workspace",
       "model": {
-        "primary": "nim/moonshotai/kimi-k2.5",
+        "primary": "nim/moonshotai/kimi-k2.6",
         "fallbacks": [
           "nim/deepseek-ai/deepseek-v4-pro",
           "github-models/openai/gpt-5",
@@ -56,14 +56,14 @@
         "nim/black-forest-labs/flux_2-klein-4b": {
           "alias": "flux"
         },
-        "nim/moonshotai/kimi-k2.5": {
-          "alias": "kimi"
-        },
         "github-models/openai/gpt-5": {
           "alias": "gpt5"
         },
         "github-models/xai/grok-3": {
           "alias": "grok"
+        },
+        "nim/moonshotai/kimi-k2.6": {
+          "alias": "kimi"
         }
       }
     },
@@ -185,8 +185,8 @@
             "maxTokens": 8192
           },
           {
-            "id": "moonshotai/kimi-k2.5",
-            "name": "Kimi K2.5",
+            "id": "moonshotai/kimi-k2.6",
+            "name": "Kimi K2.6",
             "reasoning": true,
             "input": [
               "text"
