@@ -71,7 +71,7 @@
       {
         "id": "main",
         "identity": {
-          "emoji": "\u26a1",
+          "emoji": "⚡",
           "name": "Zeroclaw"
         }
       }
@@ -89,11 +89,11 @@
       "linkPreview": false,
       "textChunkLimit": 4000,
       "chunkMode": "newline",
-      "pollingStallThresholdMs": 30000,
-      "timeoutSeconds": 60,
+      "pollingStallThresholdMs": 120000,
+      "timeoutSeconds": 90,
       "commands": {
         "native": true,
-        "nativeSkills": false
+        "nativeSkills": true
       },
       "capabilities": {
         "inlineButtons": "all"
@@ -103,7 +103,19 @@
         "deleteMessage": true,
         "reactions": true,
         "sticker": true
-      }
+      },
+      "ackReaction": "⚡",
+      "network": {
+        "autoSelectFamily": false,
+        "dnsResultOrder": "ipv4first"
+      },
+      "retry": {
+        "attempts": 3,
+        "minDelayMs": 1000,
+        "maxDelayMs": 5000,
+        "jitter": true
+      },
+      "historyLimit": 50
     }
   },
   "commands": {

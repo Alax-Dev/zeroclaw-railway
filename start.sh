@@ -7,7 +7,6 @@ echo "⚡ ============================================"
 
 validate_env() {
     local missing=0
-    local has_ai=0
     
     if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
         echo "❌ TELEGRAM_BOT_TOKEN is not set!"
@@ -22,11 +21,18 @@ validate_env() {
     if [ -z "$TELEGRAM_ADMIN_ID" ]; then
         echo "❌ TELEGRAM_ADMIN_ID is not set!"
         missing=1
+    else
+        # Must be a numeric Telegram user ID
+        if ! [[ "$TELEGRAM_ADMIN_ID" =~ ^[0-9]+$ ]]; then
+            echo "❌ TELEGRAM_ADMIN_ID must be a numeric user ID (not @username)!"
+            echo "   Get it from @userinfobot or Bot API getUpdates"
+            missing=1
+        fi
     fi
     
     # AI provider keys — at least one required
     if [ -n "$NVIDIA_NIM_API_KEY" ] || [ -n "$GITHUB_TOKEN" ]; then
-        has_ai=1
+        : # ok
     else
         echo "⚠️  No AI provider keys detected. Set at least one:"
         echo "   NVIDIA_NIM_API_KEY (for NIM models)"
@@ -48,14 +54,38 @@ substitute_env() {
     
     local config="/root/.openclaw/openclaw.json"
     
-    # Sed in-place on the original file (preserves inode — avoids
-    # the "missing-meta-before-write" / sha256 anomaly on reload)
+    # Use | as delimiter to avoid conflicts with special chars in values
     sed -i "s|\${TELEGRAM_BOT_TOKEN}|${TELEGRAM_BOT_TOKEN}|g" "$config"
     sed -i "s|\${TELEGRAM_ADMIN_ID}|${TELEGRAM_ADMIN_ID}|g" "$config"
     sed -i "s|\${NVIDIA_NIM_API_KEY}|${NVIDIA_NIM_API_KEY}|g" "$config"
     sed -i "s|\${GITHUB_TOKEN}|${GITHUB_TOKEN}|g" "$config"
     
     echo "✅ Config resolved"
+}
+
+# Verify Telegram bot token is valid
+verify_telegram() {
+    echo "🔍 Verifying Telegram bot token..."
+    local response
+    response=$(curl -sf "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" 2>/dev/null) || {
+        echo "⚠️  Could not reach Telegram API. This might be a DNS/network issue."
+        echo "   Bot will still start — polling will retry automatically."
+        return 0
+    }
+    
+    local ok
+    ok=$(echo "$response" | jq -r '.ok // false' 2>/dev/null)
+    if [ "$ok" = "true" ]; then
+        local bot_name
+        bot_name=$(echo "$response" | jq -r '.result.username // "unknown"' 2>/dev/null)
+        echo "   ✅ Bot verified: @${bot_name}"
+    else
+        local desc
+        desc=$(echo "$response" | jq -r '.description // "unknown error"' 2>/dev/null)
+        echo "   ❌ Telegram rejected the token: ${desc}"
+        echo "   Check your TELEGRAM_BOT_TOKEN in Railway variables."
+        exit 1
+    fi
 }
 
 # Start Copilot auth server (non-fatal - don't crash if it fails)
@@ -102,7 +132,6 @@ cleanup_plugin_deps() {
         
         # Remove any ENOTEMPTY-causing stale node_modules with failed renames
         find "$deps_dir" -maxdepth 4 -name "node_modules" -type d | while read -r nm_dir; do
-            # Clean temp/dot-prefixed dirs inside node_modules (failed npm renames)
             find "$nm_dir" -maxdepth 1 -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
         done
         
@@ -111,7 +140,7 @@ cleanup_plugin_deps() {
         echo "   (no plugin-runtime-deps dir — skipping)"
     fi
     
-    # Also clean npm cache to avoid stale tarballs
+    # Clean npm cache to avoid stale tarballs
     npm cache clean --force 2>/dev/null || true
     echo "   ✅ Cleaned npm cache"
 }
@@ -120,6 +149,7 @@ cleanup_plugin_deps() {
 main() {
     validate_env
     substitute_env
+    verify_telegram
     init_workspace
     setup_git
     start_copilot_auth
@@ -136,7 +166,7 @@ main() {
     echo "👤 Admin ID: $TELEGRAM_ADMIN_ID"
     echo ""
     echo "📦 Models configured:"
-    echo "   NIM: Kimi-K2.6, DeepSeek-V4-Pro, GLM-5.1, Qwen3.5, Qwen3-Coder, Phi-4"
+    echo "   NIM: Kimi-K2.6, DeepSeek-V4-Pro, GLM-5, Qwen3.5, Qwen3-Coder, Phi-4"
     echo "   NIM Images: Stable Diffusion 3.5, FLUX 2"
     echo "   GitHub: GPT-5, Grok-3"
     echo ""
@@ -147,12 +177,7 @@ main() {
     pkill -f "openclaw gateway" 2>/dev/null || true
     sleep 2
     
-    # Fix IPv6 issues on some hosts
-    export OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY=1
-    export OPENCLAW_TELEGRAM_DNS_RESULT_ORDER=ipv4first
-    
-    # Suppress npm engine-strict errors (EBADENGINE warnings for packages requiring Node >=24)
-    # The warnings are non-fatal; ENOTEMPTY is the real blocker, handled by cleanup_plugin_deps
+    # Suppress npm engine-strict errors
     export npm_config_engine_strict=false
     
     # Start the gateway with --force to kill any lingering listeners
