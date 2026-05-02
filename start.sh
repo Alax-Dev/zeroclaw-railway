@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# Node.js memory limits to prevent OOM kills on Railway (512MB RAM limit)
+export NODE_OPTIONS="--max-old-space-size=256 ${NODE_OPTIONS:-}"
+export npm_config_engine_strict=false
+
 echo "⚡ ============================================"
 echo "⚡  ZEROCKLA RAILWAY - Starting Up"
 echo "⚡ ============================================"
@@ -54,11 +58,12 @@ substitute_env() {
     
     local config="/root/.openclaw/openclaw.json"
     
-    # Use | as delimiter to avoid conflicts with special chars in values
-    sed -i "s|\${TELEGRAM_BOT_TOKEN}|${TELEGRAM_BOT_TOKEN}|g" "$config"
-    sed -i "s|\${TELEGRAM_ADMIN_ID}|${TELEGRAM_ADMIN_ID}|g" "$config"
-    sed -i "s|\${NVIDIA_NIM_API_KEY}|${NVIDIA_NIM_API_KEY}|g" "$config"
-    sed -i "s|\${GITHUB_TOKEN}|${GITHUB_TOKEN}|g" "$config"
+    # Use envsubst for safe substitution (handles special chars in tokens)
+    # Only substitute our specific variables, not all env vars
+    export TELEGRAM_BOT_TOKEN TELEGRAM_ADMIN_ID NVIDIA_NIM_API_KEY GITHUB_TOKEN
+    local tmp_config
+    tmp_config=$(envsubst '${TELEGRAM_BOT_TOKEN}:${TELEGRAM_ADMIN_ID}:${NVIDIA_NIM_API_KEY}:${GITHUB_TOKEN}' < "$config")
+    echo "$tmp_config" > "$config"
     
     echo "✅ Config resolved"
 }
