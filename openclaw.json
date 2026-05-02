@@ -113,7 +113,7 @@
         "attempts": 3,
         "minDelayMs": 1000,
         "maxDelayMs": 5000,
-        "jitter": true
+        "jitter": 0.1
       },
       "historyLimit": 50
     }
