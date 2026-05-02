@@ -7,41 +7,71 @@
     "defaults": {
       "workspace": "~/.openclaw/workspace",
       "model": {
-        "primary": "nim/microsoft/phi-4-mini-instruct",
+        "primary": "nim/moonshotai/kimi-k2.5",
         "fallbacks": [
           "nim/deepseek-ai/deepseek-v4-pro",
-          "github-models/gpt-5",
-          "github-models/grok-3",
-          "nim/zai-org/glm-5",
-          "nim/qwen/qwen3.5-122b-a10b"
+          "github-models/openai/gpt-5",
+          "github-models/xai/grok-3",
+          "nim/qwen/qwen3.5-122b-a10b",
+          "nim/zai-org/glm-5"
         ]
       },
       "imageModel": {
         "primary": "nim/stabilityai/stable-diffusion-3_5-large",
-        "fallbacks": ["nim/black-forest-labs/flux_2-klein-4b"]
+        "fallbacks": [
+          "nim/black-forest-labs/flux_2-klein-4b"
+        ]
       },
       "models": {
-        "nim/deepseek-ai/deepseek-v4-pro": { "alias": "deepseek" },
-        "nim/zai-org/glm-5": { "alias": "glm" },
-        "nim/qwen/qwen3.5-122b-a10b": { "alias": "qwen" },
-        "nim/qwen/qwen3-coder-480b-a35b-instruct": { "alias": "qwen-coder" },
-        "nim/microsoft/phi-4-mini-instruct": { "alias": "phi" },
-        "nim/meta/llama-3.3-70b-instruct": { "alias": "llama" },
-        "github-models/gpt-5": { "alias": "gpt5" },
-        "github-models/grok-3": { "alias": "grok" },
-        "copilot/claude-haiku-4.5": { "alias": "copilot-haiku" },
-        "copilot/gpt-4o": { "alias": "copilot-gpt4o" },
-        "copilot/gpt-5-mini": { "alias": "copilot-gpt5mini" },
-        "copilot/claude-sonnet-4.5": { "alias": "copilot-sonnet" },
-        "nim/stabilityai/stable-diffusion-3_5-large": { "alias": "sd" },
-        "nim/black-forest-labs/flux_2-klein-4b": { "alias": "flux" }
+        "nim/deepseek-ai/deepseek-v4-pro": {
+          "alias": "deepseek"
+        },
+        "nim/zai-org/glm-5": {
+          "alias": "glm"
+        },
+        "nim/qwen/qwen3.5-122b-a10b": {
+          "alias": "qwen"
+        },
+        "nim/qwen/qwen3-coder-480b-a35b-instruct": {
+          "alias": "qwen-coder"
+        },
+        "nim/microsoft/phi-4-mini-instruct": {
+          "alias": "phi"
+        },
+        "copilot/claude-haiku-4.5": {
+          "alias": "copilot-haiku"
+        },
+        "copilot/gpt-4o": {
+          "alias": "copilot-gpt4o"
+        },
+        "copilot/gpt-5-mini": {
+          "alias": "copilot-gpt5mini"
+        },
+        "copilot/claude-sonnet-4.5": {
+          "alias": "copilot-sonnet"
+        },
+        "nim/stabilityai/stable-diffusion-3_5-large": {
+          "alias": "sd"
+        },
+        "nim/black-forest-labs/flux_2-klein-4b": {
+          "alias": "flux"
+        },
+        "nim/moonshotai/kimi-k2.5": {
+          "alias": "kimi"
+        },
+        "github-models/openai/gpt-5": {
+          "alias": "gpt5"
+        },
+        "github-models/xai/grok-3": {
+          "alias": "grok"
+        }
       }
     },
     "list": [
       {
         "id": "main",
         "identity": {
-          "emoji": "⚡",
+          "emoji": "\u26a1",
           "name": "Zeroclaw"
         }
       }
@@ -52,13 +82,15 @@
       "enabled": true,
       "botToken": "${TELEGRAM_BOT_TOKEN}",
       "dmPolicy": "allowlist",
-      "allowFrom": ["${TELEGRAM_ADMIN_ID}"],
+      "allowFrom": [
+        "${TELEGRAM_ADMIN_ID}"
+      ],
       "streaming": "partial",
       "linkPreview": false,
       "textChunkLimit": 4000,
       "chunkMode": "newline",
       "pollingStallThresholdMs": 30000,
-      "timeoutSeconds": 30,
+      "timeoutSeconds": 60,
       "commands": {
         "native": true,
         "nativeSkills": false
@@ -71,8 +103,7 @@
         "deleteMessage": true,
         "reactions": true,
         "sticker": true
-      },
-      "timeoutSeconds": 60
+      }
     }
   },
   "commands": {
@@ -107,7 +138,9 @@
             "id": "deepseek-ai/deepseek-v4-pro",
             "name": "DeepSeek V4 Pro",
             "reasoning": true,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 1048576,
             "maxTokens": 16384
           },
@@ -115,7 +148,9 @@
             "id": "zai-org/glm-5",
             "name": "GLM-5.1",
             "reasoning": false,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 131072,
             "maxTokens": 8192
           },
@@ -123,7 +158,9 @@
             "id": "qwen/qwen3.5-122b-a10b",
             "name": "Qwen 3.5 122B",
             "reasoning": true,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 131072,
             "maxTokens": 8192
           },
@@ -131,7 +168,9 @@
             "id": "qwen/qwen3-coder-480b-a35b-instruct",
             "name": "Qwen 3 Coder 480B",
             "reasoning": true,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 131072,
             "maxTokens": 16384
           },
@@ -139,23 +178,29 @@
             "id": "microsoft/phi-4-mini-instruct",
             "name": "Phi 4 Mini",
             "reasoning": false,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 131072,
             "maxTokens": 8192
           },
           {
-            "id": "meta/llama-3.3-70b-instruct",
-            "name": "Llama 3.3 70B",
-            "reasoning": false,
-            "input": ["text"],
+            "id": "moonshotai/kimi-k2.5",
+            "name": "Kimi K2.5",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
             "contextWindow": 131072,
-            "maxTokens": 8192
+            "maxTokens": 16384
           },
           {
             "id": "stabilityai/stable-diffusion-3_5-large",
             "name": "Stable Diffusion 3.5 Large",
             "reasoning": false,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 4096,
             "maxTokens": 4096
           },
@@ -163,34 +208,45 @@
             "id": "black-forest-labs/flux_2-klein-4b",
             "name": "FLUX 2 Klein",
             "reasoning": false,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 4096,
             "maxTokens": 4096
           }
         ]
       },
       "github-models": {
-        "baseUrl": "https://models.inference.ai.azure.com",
+        "baseUrl": "https://models.github.ai/inference",
         "apiKey": "${GITHUB_TOKEN}",
         "api": "openai-completions",
         "models": [
           {
-            "id": "gpt-5",
+            "id": "openai/gpt-5",
             "name": "GPT-5",
             "reasoning": true,
-            "input": ["text", "image"],
+            "input": [
+              "text",
+              "image"
+            ],
             "contextWindow": 128000,
             "maxTokens": 16384,
-            "compat": { "maxTokensField": "max_completion_tokens" }
+            "compat": {
+              "maxTokensField": "max_completion_tokens"
+            }
           },
           {
-            "id": "grok-3",
+            "id": "xai/grok-3",
             "name": "Grok 3",
             "reasoning": true,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 131072,
             "maxTokens": 8192,
-            "compat": { "maxTokensField": "max_completion_tokens" }
+            "compat": {
+              "maxTokensField": "max_completion_tokens"
+            }
           }
         ]
       },
@@ -203,7 +259,9 @@
             "id": "claude-haiku-4.5",
             "name": "Claude Haiku 4.5 (Copilot)",
             "reasoning": false,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 200000,
             "maxTokens": 8192
           },
@@ -211,7 +269,10 @@
             "id": "gpt-4o",
             "name": "GPT-4o (Copilot)",
             "reasoning": false,
-            "input": ["text", "image"],
+            "input": [
+              "text",
+              "image"
+            ],
             "contextWindow": 128000,
             "maxTokens": 16384
           },
@@ -219,7 +280,9 @@
             "id": "gpt-5-mini",
             "name": "GPT-5 Mini (Copilot)",
             "reasoning": false,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 128000,
             "maxTokens": 16384
           },
@@ -227,7 +290,9 @@
             "id": "claude-sonnet-4.5",
             "name": "Claude Sonnet 4.5 (Copilot)",
             "reasoning": true,
-            "input": ["text"],
+            "input": [
+              "text"
+            ],
             "contextWindow": 200000,
             "maxTokens": 16384
           }

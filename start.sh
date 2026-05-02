@@ -110,7 +110,7 @@ main() {
     echo "👤 Admin ID: $TELEGRAM_ADMIN_ID"
     echo ""
     echo "📦 Models configured:"
-    echo "   NIM: DeepSeek-V4-Pro, GLM-5.1, Qwen3.5, Qwen3-Coder, Phi-4, Llama-3.3"
+    echo "   NIM: Kimi-K2.5, DeepSeek-V4-Pro, GLM-5.1, Qwen3.5, Qwen3-Coder, Phi-4"
     echo "   NIM Images: Stable Diffusion 3.5, FLUX 2"
     echo "   GitHub: GPT-5, Grok-3"
     echo ""

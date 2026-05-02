@@ -22,7 +22,7 @@
 | Qwen 3.5 122B | `/model qwen` | Balanced performance |
 | Qwen 3 Coder 480B | `/model qwen-coder` | **Coding specialist** |
 | Phi 4 Mini | `/model phi` | Fast responses |
-| Llama 3.3 70B | `/model llama` | Meta's latest |
+| Kimi K2.5 | `/model kimi` | Moonshot AI — reasoning + 128K context |
 
 ### NVIDIA NIM (Image Generation)
 | Model | Alias | Use Case |
