@@ -39,10 +39,10 @@
 ### GitHub Copilot (requires login)
 | Model | Alias | Use Case |
 |-------|-------|----------|
-| Claude Haiku 4.5 | `/model copilot-haiku` | Fast, lightweight |
+| Claude 3.5 Haiku | `/model copilot-haiku` (was copilot-haiku-4.5) | Fast, lightweight |
 | GPT-4o | `/model copilot-gpt4o` | Vision + text |
-| GPT-5 Mini | `/model copilot-gpt5mini` | Fast GPT-5 |
-| Claude Sonnet 4.5 | `/model copilot-sonnet` | Balanced reasoning |
+| GPT-4o Mini | `/model copilot-gpt5mini` | Fast GPT-5 |
+| Claude Sonnet 4 | `/model copilot-sonnet` | Balanced reasoning |
 
 > **Note:** Copilot models require a GitHub Copilot subscription. Send `/copilot-login` in Telegram to authenticate via device flow.
 
@@ -137,7 +137,7 @@ A cyberpunk city at night, neon lights, rain
 
 ## 🔑 GitHub Copilot Setup (Optional)
 
-If you have a GitHub Copilot subscription, you can use Copilot models (Claude Haiku 4.5, GPT-4o, etc.) as an additional provider.
+If you have a GitHub Copilot subscription, you can use Copilot models (Claude 3.5 Haiku, GPT-4o, etc.) as an additional provider.
 
 ### How It Works
 
@@ -149,10 +149,10 @@ If you have a GitHub Copilot subscription, you can use Copilot models (Claude Ha
 
 ### Available Copilot Models
 
-- `/model copilot-haiku` — Claude Haiku 4.5 (fast)
+- `/model copilot-haiku` (was copilot-haiku-4.5) — Claude 3.5 Haiku (fast)
 - `/model copilot-gpt4o` — GPT-4o (vision capable)
-- `/model copilot-gpt5mini` — GPT-5 Mini
-- `/model copilot-sonnet` — Claude Sonnet 4.5 (reasoning)
+- `/model copilot-gpt5mini` — GPT-4o Mini
+- `/model copilot-sonnet` — Claude Sonnet 4 (reasoning)
 
 ### Auth Server
 

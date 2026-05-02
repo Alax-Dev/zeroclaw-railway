@@ -38,17 +38,8 @@
         "nim/microsoft/phi-4-mini-instruct": {
           "alias": "phi"
         },
-        "copilot/claude-haiku-4.5": {
-          "alias": "copilot-haiku"
-        },
         "copilot/gpt-4o": {
           "alias": "copilot-gpt4o"
-        },
-        "copilot/gpt-5-mini": {
-          "alias": "copilot-gpt5mini"
-        },
-        "copilot/claude-sonnet-4.5": {
-          "alias": "copilot-sonnet"
         },
         "nim/stabilityai/stable-diffusion-3_5-large": {
           "alias": "sd"
@@ -64,6 +55,15 @@
         },
         "nim/moonshotai/kimi-k2.6": {
           "alias": "kimi"
+        },
+        "copilot/claude-3.5-haiku": {
+          "alias": "copilot-haiku"
+        },
+        "copilot/gpt-4o-mini": {
+          "alias": "copilot-gpt5mini"
+        },
+        "copilot/claude-sonnet-4": {
+          "alias": "copilot-sonnet"
         }
       }
     },
@@ -256,8 +256,8 @@
         "api": "openai-completions",
         "models": [
           {
-            "id": "claude-haiku-4.5",
-            "name": "Claude Haiku 4.5 (Copilot)",
+            "id": "claude-3.5-haiku",
+            "name": "Claude 3.5 Haiku (Copilot)",
             "reasoning": false,
             "input": [
               "text"
@@ -277,8 +277,8 @@
             "maxTokens": 16384
           },
           {
-            "id": "gpt-5-mini",
-            "name": "GPT-5 Mini (Copilot)",
+            "id": "gpt-4o-mini",
+            "name": "GPT-4o Mini (Copilot)",
             "reasoning": false,
             "input": [
               "text"
@@ -287,8 +287,8 @@
             "maxTokens": 16384
           },
           {
-            "id": "claude-sonnet-4.5",
-            "name": "Claude Sonnet 4.5 (Copilot)",
+            "id": "claude-sonnet-4",
+            "name": "Claude Sonnet 4 (Copilot)",
             "reasoning": true,
             "input": [
               "text"
