@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
     psmisc \
     && rm -rf /var/lib/apt/lists/*
 
+# Suppress EBADENGINE warnings globally (packages requiring Node >=24 are non-fatal)
+RUN npm config set engine-strict false
+
 # Install OpenClaw globally
 RUN npm install -g openclaw@latest
 

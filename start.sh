@@ -88,6 +88,34 @@ setup_git() {
     fi
 }
 
+# Clean corrupted npm caches and stale plugin-runtime-deps
+cleanup_plugin_deps() {
+    echo "🧹 Cleaning stale plugin-runtime-deps..."
+    local deps_dir="/root/.openclaw/plugin-runtime-deps"
+    
+    if [ -d "$deps_dir" ]; then
+        # Remove any lock files/directories
+        find "$deps_dir" -name ".openclaw-runtime-deps.lock" -type d -exec rm -rf {} + 2>/dev/null || true
+        
+        # Remove corrupted temp directories (dot-prefixed like .hono-asFCTDcb)
+        find "$deps_dir" -maxdepth 3 -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
+        
+        # Remove any ENOTEMPTY-causing stale node_modules with failed renames
+        find "$deps_dir" -maxdepth 4 -name "node_modules" -type d | while read -r nm_dir; do
+            # Clean temp/dot-prefixed dirs inside node_modules (failed npm renames)
+            find "$nm_dir" -maxdepth 1 -name ".*" -type d -exec rm -rf {} + 2>/dev/null || true
+        done
+        
+        echo "   ✅ Cleaned plugin-runtime-deps"
+    else
+        echo "   (no plugin-runtime-deps dir — skipping)"
+    fi
+    
+    # Also clean npm cache to avoid stale tarballs
+    npm cache clean --force 2>/dev/null || true
+    echo "   ✅ Cleaned npm cache"
+}
+
 # Main startup
 main() {
     validate_env
@@ -96,10 +124,8 @@ main() {
     setup_git
     start_copilot_auth
     
-    # Clean up stale plugin-runtime-deps lock if present (recurse, ignore errors)
-    if [ -d "/root/.openclaw/plugin-runtime-deps" ]; then
-      find /root/.openclaw/plugin-runtime-deps -name ".openclaw-runtime-deps.lock" -type d -exec rm -rf {} + 2>/dev/null || true
-    fi
+    # Aggressively clean corrupted plugin-runtime-deps before gateway starts
+    cleanup_plugin_deps
     
     echo ""
     echo "⚡ ============================================"
@@ -124,6 +150,10 @@ main() {
     # Fix IPv6 issues on some hosts
     export OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY=1
     export OPENCLAW_TELEGRAM_DNS_RESULT_ORDER=ipv4first
+    
+    # Suppress npm engine-strict errors (EBADENGINE warnings for packages requiring Node >=24)
+    # The warnings are non-fatal; ENOTEMPTY is the real blocker, handled by cleanup_plugin_deps
+    export npm_config_engine_strict=false
     
     # Start the gateway with --force to kill any lingering listeners
     exec openclaw gateway --force
