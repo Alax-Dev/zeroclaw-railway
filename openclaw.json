@@ -229,7 +229,7 @@
         ]
       },
       "github-models": {
-        "baseUrl": "https://models.github.ai/inference",
+        "baseUrl": "https://models.inference.ai.azure.com",
         "apiKey": "${GITHUB_TOKEN}",
         "api": "openai-completions",
         "models": [
@@ -268,7 +268,7 @@
         "api": "openai-completions",
         "models": [
           {
-            "id": "claude-3.5-haiku",
+            "id": "claude-3-5-haiku",
             "name": "Claude 3.5 Haiku (Copilot)",
             "reasoning": false,
             "input": [
@@ -299,7 +299,7 @@
             "maxTokens": 16384
           },
           {
-            "id": "claude-sonnet-4",
+            "id": "claude-3-5-sonnet",
             "name": "Claude Sonnet 4 (Copilot)",
             "reasoning": true,
             "input": [

@@ -53,7 +53,7 @@
 1. **Telegram Bot Token** — Create via [@BotFather](https://t.me/BotFather)
 2. **Your Telegram User ID** — Get from [@userinfobot](https://t.me/userinfobot)
 3. **NVIDIA NIM API Key** — Get from [build.nvidia.com](https://build.nvidia.com)
-4. **GitHub Token** — Get from [github.com/settings/tokens](https://github.com/settings/tokens) (needs `models:read` scope)
+4. **GitHub Token** — Get from [github.com/settings/tokens](https://github.com/settings/tokens) (fine-grained or classic PAT)
 5. **Railway Account** — Sign up at [railway.app](https://railway.app)
 
 ### Step 1: Fork or Clone
